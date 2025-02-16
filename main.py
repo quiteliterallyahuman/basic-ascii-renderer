@@ -7,7 +7,7 @@ def clear():
     os.system("cls" if os.name == "nt" else "clear")
     sys.stdout.flush()
 
-screen = [
+screen = [ # the level (this took time to make)
     [1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 0, 2, 0, 2, 0],
     [1, 0, 2, 0, 2, 0, 2, 1, 2, 0, 2, 0, 2, 0, 2],
     [1, 2, 0, 2, 0, 2, 0, 1, 0, 2, 0, 2, 0, 2, 0],
@@ -25,18 +25,18 @@ screen = [
     [2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
 ]
 
-playerpos = [1, 1]
+playerpos = [1, 1] # player stuff
 playerchar = "{#}"
 
-showingstats = True
+showingstats = True # if you want to see the player position and stuff
 
 render = ""
 delta = 0.
 prevtime = time.time()
 
-while True:
+while True: # main loop
     if keyboard.is_pressed("esc"):
-        break
+        break # exit on the escape key
     delta = time.time() - prevtime
     prevtime = time.time()
     newrender = ""
@@ -58,11 +58,11 @@ while True:
             if x == playerpos[0] and y == playerpos[1]:
                 line += f"\033[32m{playerchar}\033[0m"
             elif n == 1:
-                line += "\033[93m▒▒▒\033[0m"
+                line += "\033[93m▒▒▒\033[0m" # wall
             elif n == 0:
-                line += "\033[90m░░░\033[0m"
+                line += "\033[90m░░░\033[0m" # floor variation 1
             elif n == 2:
-                line += "\033[97m░░░\033[0m"
+                line += "\033[97m░░░\033[0m" # floor variation 2
         newrender += line + "\n"
     if showingstats:
         # show player position and debug info
@@ -70,7 +70,8 @@ while True:
 
     if render != newrender or render == "":
         clear()
-        sys.stdout.write(newrender)
+        sys.stdout.write(newrender) # apparently according to mr chatgpt sys.stdout.write() is faster than print()
         print("\033[H", end="")
         render = newrender
-    time.sleep(delta / 15)
+    
+    time.sleep(delta / 15) # give it 15 frames / second (sleep(delta) gives you 1 frame per second)
